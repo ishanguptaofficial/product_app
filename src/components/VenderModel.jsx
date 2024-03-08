@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   addProduct as addProductAction,
-  updateProduct as updateProductAction,
+  updateProduct
 } from "../store/actions";
 import {
   Box,
@@ -18,10 +18,16 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const VendorModel = ({ handleClose, open, modalMethod }) => {
+const VendorModel = ({ handleClose, open, modalMethod, updateId }) => {
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.products.product); // Assuming there's a product object in your state
+  const productList = useSelector((state) => state.products); // Assuming there's a product object in your state
+  console.log({ productList });
 
+  const product =
+    productList?.products?.find((it, i) => i === updateId - 1) ?? {};
+
+  console.log("use selecotr", productList?.products, product);
+  // const product  =updateId
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -50,8 +56,11 @@ const VendorModel = ({ handleClose, open, modalMethod }) => {
       ),
     }),
     onSubmit: (values) => {
+      console.log("valueeeee>>>>>>>>", { ...values, updateId });
       if (modalMethod.method === "update") {
-        dispatch(updateProductAction({ id: product.id, ...values }));
+        console.log("hello")
+        console.log({ id: updateId - 1, updatedProduct: values });
+        checkFn(updateId,values);
       } else {
         dispatch(addProductAction(values));
       }
@@ -60,6 +69,14 @@ const VendorModel = ({ handleClose, open, modalMethod }) => {
     },
     enableReinitialize: true,
   });
+
+  const  checkFn = (updateId,values)=>{
+
+    console.log('calling dipatch');
+    dispatch(
+      updateProduct({ id: updateId - 1, updatedProduct: values })
+    );
+  }
   const handleAddVendor = () => {
     formik.values.vendors.push({
       nameV: "",

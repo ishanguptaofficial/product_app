@@ -26,7 +26,7 @@ function MainPage({ products, addProduct, removeProduct, updateProduct }) {
   const handleClose = () => {
     setOpen(false);
     setModalMethod({});
-    removeProduct({})
+    // removeProduct({})
   };
 
   const handleOpenMenu = (event, rowIndex) => {

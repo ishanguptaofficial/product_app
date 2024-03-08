@@ -24,19 +24,24 @@ const productSlice = createSlice({
     },
     updateProduct: (state, action) => {
       const { id, updatedProduct } = action.payload;
-      const index = state.products.findIndex((product) => product.id === id);
-      console.log([...state.products])
-      console.log([...state.products])
+      const arr = state.products;
+      // console.log(">>>>>>>", action.payload, ...state)
+      const index = arr.findIndex((product,i) => i === id);
+      console.log('alread here')
+      console.log(index)
       if (index !== -1) {
-        const updatedProducts = [...state.products];
+        const updatedProducts = [...arr];
         updatedProducts[index] = updatedProduct;
-        return {
-          ...state,
-          products: updatedProducts,
-        };
+        console.log({updatedProducts,chck:updatedProducts[index]});
+        state.products = updatedProducts; 
+        // return {
+        //   ...state,
+        //   products: updatedProducts,
+        // };
       }
-      return state;
+      // return state;
     },
+    
   },
 });
 
